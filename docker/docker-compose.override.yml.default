@@ -1,0 +1,58 @@
+version: "3"
+services:
+  nginx:
+    image: ${IMAGE_NGINX}
+    container_name: "${COMPOSE_PROJECT_NAME}_nginx"
+    restart: always
+    volumes:
+      - ../:/var/www/html/
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - php
+    networks:
+      - front
+
+  php:
+    image: ${IMAGE_PHP}
+    container_name: "${COMPOSE_PROJECT_NAME}_php"
+    restart: always
+    environment:
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_HOSTNAME=${MYSQL_HOSTNAME}
+    volumes:
+      - ../:/var/www/html/
+      - ./php/php-dev.ini:/usr/local/etc/php/conf.d/php-dev.ini
+      - ./php/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+    networks:
+      - front
+
+  # mariadb:
+  #     image: ${IMAGE_MARIADB}
+  #     container_name: "${COMPOSE_PROJECT_NAME}_mariadb"
+  #     restart: always
+  #     environment:
+  #       - MYSQL_RANDOM_ROOT_PASSWORD=1
+  #       - MYSQL_USER=${MYSQL_USER}
+  #       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+  #       - MYSQL_DATABASE=${MYSQL_DATABASE}
+  #     volumes:
+  #       - ../mysql/${COMPOSE_PROJECT_NAME}:/var/lib/mysql
+  #     networks:
+  #       - front
+
+  # adminer:
+  #   image: adminer
+  #   container_name: "${COMPOSE_PROJECT_NAME}_adminer"
+  #   restart: always
+  #   ports:
+  #     - 8080:8080
+  #   networks:
+  #       - front
+
+networks:
+  front:

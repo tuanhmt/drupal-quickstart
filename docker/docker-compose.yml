@@ -1,0 +1,70 @@
+version: "3"
+services:
+  nginx:
+    image: ${IMAGE_NGINX}
+    container_name: "${COMPOSE_PROJECT_NAME}_web"
+    restart: always
+    volumes:
+      - ../:/var/www/html/
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "8888:80"
+    depends_on:
+      - php
+    networks:
+      - front
+
+  php:
+    image: ${IMAGE_PHP}
+    container_name: "${COMPOSE_PROJECT_NAME}_php"
+    restart: always
+    environment:
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_HOSTNAME=${MYSQL_HOSTNAME}
+    volumes:
+      - ../:/var/www/html/
+      - ./php/php-dev.ini:/usr/local/etc/php/conf.d/php-dev.ini
+      - ./php/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+      - ../tmp:/tmp
+    networks:
+      - front
+
+  # mariadb:
+  #     image: ${IMAGE_MARIADB}
+  #     container_name: "${COMPOSE_PROJECT_NAME}_mariadb"
+  #     restart: always
+  #     environment:
+  #       - MYSQL_RANDOM_ROOT_PASSWORD=1
+  #       - MYSQL_USER=${MYSQL_USER}
+  #       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+  #       - MYSQL_DATABASE=${MYSQL_DATABASE}
+  #     volumes:
+  #       - ../mysql/${COMPOSE_PROJECT_NAME}:/var/lib/mysql
+  #     networks:
+  #       - front
+
+  # adminer:
+  #   image: adminer
+  #   container_name: "${COMPOSE_PROJECT_NAME}_adminer"
+  #   restart: always
+  #   ports:
+  #     - 8080:8080
+  #   networks:
+  #       - front
+
+    # blackfire:
+    #   image: blackfire/blackfire
+    #   container_name: "${COMPOSE_PROJECT_NAME}_blackfire"
+    #   ports: ["8707"]
+    #   environment:
+    #     BLACKFIRE_CLIENT_ID: 76ca4179-a348-4e3f-8eed-a10e715053d8
+    #     BLACKFIRE_CLIENT_TOKEN: 305c22289a0f15301585d7f628ad7505996cbad07b7ce6279c14057f8b97d720
+    #     BLACKFIRE_SERVER_ID: 421ed57d-bef1-4d62-8098-ac105219cbc8
+    #     BLACKFIRE_SERVER_TOKEN: f17cdc887f4ac7dd60a4d98179f63936f8bdb88916fa70bcaeacaea6be3baf33
+    #   networks:
+    #     - front
+
+networks:
+  front:
