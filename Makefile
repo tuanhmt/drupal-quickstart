@@ -118,7 +118,7 @@ exec0:
 
 down:
 	@echo "Removing network & containers for $(COMPOSE_PROJECT_NAME)"
-	@docker-compose down -v --remove-orphans --rmi local
+	@docker-compose down --remove-orphans
 
 ## Validate codebase with phpcs sniffers to make sure it conforms https://www.drupal.org/docs/develop/standards
 phpcs:
