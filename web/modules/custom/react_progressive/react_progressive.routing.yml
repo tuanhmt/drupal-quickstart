@@ -1,0 +1,7 @@
+react_progressive.example:
+  path: '/react-progressive/example'
+  defaults:
+    _title: 'Example'
+    _controller: '\Drupal\react_progressive\Controller\ReactProgressiveController::build'
+  requirements:
+    _permission: 'access content'

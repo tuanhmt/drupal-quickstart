@@ -55,3 +55,6 @@ postgresql
 .DS_Store
 .user.ini
 .well-known
+web/themes/custom/adminltev3/dist
+web/themes/custom/adminltev3/pages
+web/themes/custom/adminltev3/plugins

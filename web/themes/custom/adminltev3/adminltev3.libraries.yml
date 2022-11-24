@@ -1,0 +1,18 @@
+base:
+  version: 1.x
+  js:
+    plugins/bootstrap/js/bootstrap.bundle.min.js: {}
+    dist/js/adminlte.min.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal.ajax
+    - core/drupal
+    - core/drupalSettings
+    - core/jquery.once
+styles:
+  css:
+    theme:
+      https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback: { type: external, minified: true }
+      plugins/fontawesome-free/css/all.min.css: {}
+      dist/css/adminlte.min.css: {}
+    
