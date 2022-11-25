@@ -15,8 +15,7 @@ module.exports = {
         },
     },
     devServer: {
-        contentBase: './src',
-        publicPath: '/../dist',
+      contentBase: './public'
     },
     module: {
         rules: [
