@@ -1,7 +1,5 @@
 
-.PHONY: all provision si exec exec0 down clean dev front drush info phpcs phpcbf hooksymlink clang cinsp compval watchdogval drupalcheckval behat sniffers tests front behatdl behatdi browser_driver browser_driver_stop statusreportval contentgen kubeinstall kexec
-.DEFAULT_GOAL := help
-.NOTPARALLEL: kubeinstall deploy
+.PHONY: all provision si exec exec0 down clean dev front drush phpcs phpcbf behat sniffers tests 
 
 # https://stackoverflow.com/a/6273809/1826109
 %:
@@ -95,18 +93,6 @@ si:
 	@echo "Installing from: $(PROFILE_NAME)"
 	cp ./settings/settings.php ./web/sites/default/
 	$(call php, drush si $(PROFILE_NAME) --config-dir=../config/sync --account-name=$(ADMIN_NAME) --account-mail=$(ADMIN_MAIL) --account-pass=$(ADMIN_PW) -y --site-name="$(SITE_NAME)" --site-mail="$(SITE_MAIL)" -y)
-
-## Update Drupal
-update:
-	@echo "Updating from: $(PROJECT_INSTALL)"
-	@$(call php, drush cr)
-	@$(call php, drush updb -y)
-	@$(call php, drush cim -y)
-	@$(call php, drush cr)
-	@$(call php, chown -R 1000:1000 oauth_keys)
-	@$(call php, chmod 755 oauth_keys)
-	@$(call php, chmod 600 oauth_keys/private.key)
-	@$(call php, chmod 600 oauth_keys/public.key)
 
 ## Run shell in PHP container as regular user
 exec:
